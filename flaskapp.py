@@ -70,11 +70,8 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT ArtistId, Artist.Name, Track.Name, UnitPrice
-        FROM Artist
-        JOIN Album USING (ArtistID)
-        JOIN Track USING (AlbumID)
-        LIMIT 20
+        SELECT *
+        FROM Food_Reviews;
     """)
     return display_html(rows)
 
