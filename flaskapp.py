@@ -43,6 +43,7 @@ def execute_query(query, args=()):
 def get_column_names(table_name):
     """
     Returns column names for a specific table.
+    Used ai to trouble shoot how to just return column names
     """
     conn = get_connection()
     cursor = conn.cursor()
@@ -56,6 +57,7 @@ def display_html(rows, colnames):
     """
     Converts query result rows into a simple HTML table string with column headers.
     Flask routes can return this directly as a response.
+    Used ai to help display column names
     """
     html = "<table border='1'><tr>"
     for name in colnames:
