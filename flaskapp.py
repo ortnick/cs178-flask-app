@@ -39,14 +39,14 @@ def execute_query(query, args=()):
     conn.close()
     return rows
 
-def get_column_names(query):
+def get_column_names(table_name):
     """
-    Returns the column names for a given SQL query without fetching data.
-    Used AI to help find out how to pull col names
+    Returns column names for a specific table.
+    Does not execute ORDER BY or computed expressions.
     """
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute(query + " LIMIT 0;")  # fetch no rows, just metadata
+    cursor.execute(f"SELECT * FROM {table_name} LIMIT 0;")
     colnames = [desc[0] for desc in cursor.description]
     cursor.close()
     conn.close()
