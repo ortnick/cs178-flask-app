@@ -8,7 +8,7 @@ CREATE TABLE Food_Reviews (
     Taste DECIMAL(3,1) CHECK (Taste >= 0.0 AND Taste <= 10.0)
 );
 
-INSERT INTO Reviews (FoodName, EaseOfMaking, Taste)
+INSERT INTO Food_Reviews (FoodName, EaseOfMaking, Taste)
 VALUES
     ('Butter chicken', 9.4, 8.6),
     ('Scallion Pancakes', 9.2, 6.3),
