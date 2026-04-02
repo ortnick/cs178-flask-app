@@ -39,6 +39,19 @@ def execute_query(query, args=()):
     conn.close()
     return rows
 
+def get_column_names(query):
+    """
+    Returns the column names for a given SQL query without fetching data.
+    Used AI to help find out how to pull col names
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(query + " LIMIT 0;")  # fetch no rows, just metadata
+    colnames = [desc[0] for desc in cursor.description]
+    cursor.close()
+    conn.close()
+    return colnames
+
 def get_column_names(table_name):
     """
     Returns column names for a specific table.
@@ -89,11 +102,7 @@ def viewdb():
         FROM FoodReviews.Food_Reviews
         ORDER BY AverageRating DESC;
     """)
-    colnames = get_column_names("""
-        SELECT *, (EaseOfMaking + Taste) AS AverageRating
-        FROM FoodReviews.Food_Reviews
-        ORDER BY AverageRating DESC;
-    """)
+    colnames = get_column_names("FoodReviews.Food_Reviews") + ["AverageRating"]
     return display_html(rows, colnames)
 
 
