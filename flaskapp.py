@@ -70,7 +70,7 @@ def display_html(rows, colnames):
     Flask routes can return this directly as a response.
     """
     html = "<table border='1'><tr>"
-    for name in colnames:
+    for name in colnames[1:]:
         html += f"<th>{name}</th>"
     html += "</tr>"
     for row in rows:
@@ -97,7 +97,7 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT FoodName, EaseOfMaking, Taste, (EaseOfMaking + Taste) AS AverageRating
+        SELECT *, (EaseOfMaking + Taste) AS AverageRating
         FROM FoodReviews.Food_Reviews
         ORDER BY AverageRating DESC;
     """)
