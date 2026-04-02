@@ -85,11 +85,11 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT *, (EaseOfMaking + Taste)/2 AS AverageRating
+        SELECT *, (EaseOfMaking + Taste) AS TotalRating
         FROM FoodReviews.Food_Reviews
-        ORDER BY AverageRating DESC;
+        ORDER BY TotalRating DESC;
     """)
-    colnames = get_column_names("FoodReviews.Food_Reviews") + ["AverageRating"]
+    colnames = get_column_names("FoodReviews.Food_Reviews") + ["TotalRating"]
     return display_html(rows, colnames)
 
 
