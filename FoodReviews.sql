@@ -1,3 +1,5 @@
+-- Used ai to make this part
+
 CREATE DATABASE IF NOT EXISTS FoodReviews;
 USE FoodReviews;
 

@@ -40,12 +40,15 @@ def execute_query(query, args=()):
     return rows
 
 
-def display_html(rows):
+def display_html(rows, colnames):
     """
-    Converts query result rows into a simple HTML table string.
+    Converts query result rows into a simple HTML table string with column headers.
     Flask routes can return this directly as a response.
     """
-    html = "<table border='1'>"
+    html = "<table border='1'><tr>"
+    for name in colnames:
+        html += f"<th>{name}</th>"
+    html += "</tr>"
     for row in rows:
         html += "<tr>"
         for col in row:
@@ -70,8 +73,10 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT *
-        FROM FoodReviews.Food_Reviews;
+        SELECT *, (EaseOfMaking + Taste) AS AverageRating
+        FROM FoodReviews.Food_Reviews
+        ORDER BY AverageRating DESC
+        LIMIT 20;
     """)
     return display_html(rows)
 
