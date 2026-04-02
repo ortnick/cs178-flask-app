@@ -71,7 +71,7 @@ def viewdb():
     """
     rows = execute_query("""
         SELECT *
-        FROM Food_Reviews;
+        FROM FoodReviews.Food_Reviews;
     """)
     return display_html(rows)
 
