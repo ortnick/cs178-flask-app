@@ -70,7 +70,7 @@ def display_html(rows, colnames):
     Flask routes can return this directly as a response.
     """
     html = "<table border='1'><tr>"
-    for name in colnames[1:]:
+    for name in colnames:
         html += f"<th>{name}</th>"
     html += "</tr>"
     for row in rows:
