@@ -55,7 +55,6 @@ def get_column_names(query):
 def get_column_names(table_name):
     """
     Returns column names for a specific table.
-    Does not execute ORDER BY or computed expressions.
     """
     conn = get_connection()
     cursor = conn.cursor()
