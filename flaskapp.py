@@ -97,7 +97,7 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT *, (EaseOfMaking + Taste) AS AverageRating
+        SELECT FoodName, EaseOfMaking, Taste, (EaseOfMaking + Taste) AS AverageRating
         FROM FoodReviews.Food_Reviews
         ORDER BY AverageRating DESC;
     """)
