@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS FoodReviews;
 USE FoodReviews;
 
-CREATE TABLE Reviews (
+CREATE TABLE Food_Reviews (
     ReviewID INT AUTO_INCREMENT PRIMARY KEY,
     FoodName VARCHAR(100) NOT NULL,
     EaseOfMaking DECIMAL(3,1) CHECK (EaseOfMaking >= 0.0 AND EaseOfMaking <= 10.0),
