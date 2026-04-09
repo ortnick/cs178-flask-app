@@ -50,29 +50,46 @@ def add_food():
         """
 
         execute_update(query, args = (food_name, ease_of_making, taste, dietary_class))
-        flash('User added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
+        flash('Food added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
         # Render the form page if the request method is GET
         return render_template('add_food.html')
 
-@app.route('/delete-food',methods=['GET', 'POST'])
-def delete_user():
+@app.route('/delete-food', methods=['GET', 'POST'])
+def delete_food():
     if request.method == 'POST':
         # Extract form data
-        food = request.form['Food']
-        
-        # Process the data (e.g., add it to a database)
-        # For now, let's just print it to the console
-        print("Name to delete:", food)
-        
-        flash('Food deleted successfully! Hoorah!', 'warning') 
-        # Redirect to home page or another page upon successful submission
+        food_name = request.form['food_name']
+
+        # Check if food exists
+        check_query = """
+            SELECT *
+            FROM FoodReviews.Food_Reviews
+            WHERE FoodName = %s
+        """
+
+        result = execute_query(check_query, args=(food_name,))
+
+        if len(result) == 0:
+            flash('This food does not exist!', 'error')
+            return redirect(url_for('delete_food'))
+
+        # Delete if it exists
+        delete_query = """
+            DELETE FROM FoodReviews.Food_Reviews
+            WHERE FoodName = %s
+        """
+
+        execute_update(delete_query, args=(food_name,))
+
+        flash('Food deleted successfully! Hoorah!', 'warning')
         return redirect(url_for('home'))
+
     else:
         # Render the form page if the request method is GET
-        return render_template('delete_user.html')
+        return render_template('delete_food.html')
 
 @app.route("/viewdb")
 def viewdb():
@@ -86,6 +103,7 @@ def viewdb():
         ORDER BY total DESC;
     """)
 
+    # Used ai to help find out how to join on this data since i couldnt get it to work with sql code
     response = diettable.scan()
     diet_rows = response['Items']
 
@@ -95,7 +113,7 @@ def viewdb():
         for row in diet_rows
     }
 
-    # Add diet labels to MySQL rows
+    # Join diet labels to MySQL rows
     for food in foods:
         food['diet'] = diet_lookup.get(food['diet_id'], "Unknown")
 
