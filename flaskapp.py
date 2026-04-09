@@ -25,21 +25,6 @@ def get_connection():
         db=creds.db
     )
 
-
-def execute_query(query, args=()):
-    """
-    Runs a SQL query and returns all result rows as a list of tuples.
-    Always use parameterized queries (args) when inserting user input —
-    never build SQL strings with f-strings or concatenation.
-    """
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute(query, args)
-    rows = cursor.fetchall()
-    conn.close()
-    return rows
-
-
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
@@ -51,9 +36,6 @@ def home():
 
 @app.route('/add-food', methods=['GET', 'POST'])
 def add_food():
-
-        #DO THIS IN DBCODEcjkSD VjAENFV :SKJV SD:KJV SD
-        ##fsdf
     if request.method == 'POST':
         # Extract form data
         food_name = request.form['food_name']
@@ -66,7 +48,8 @@ def add_food():
             (FoodName, EaseOfMaking, Taste, DietaryClass)
             VALUES ('{food_name}', {ease_of_making}, {taste}, {dietary_class})
         """
-        
+
+        execute_query(query, args = (food_name, ease_of_making, taste, dietary_class))
         flash('User added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
@@ -93,11 +76,6 @@ def delete_user():
 
 @app.route("/viewdb")
 def viewdb():
-    """
-    Fetches the first 20 tracks from the Chinook database
-    and returns them as an HTML table.
-    Route: /viewdb
-    """
     foods = execute_query("""
         SELECT FR.FoodName as food, DC.DIET_LABEL as diet, FR.EaseOfMaking as ease, FR.Taste as taste, (FR.EaseOfMaking + FR.Taste) AS total
         FROM FoodReviews.Food_Reviews FR
