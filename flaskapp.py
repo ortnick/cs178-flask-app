@@ -84,13 +84,14 @@ def home():
 def add_user():
     if request.method == 'POST':
         # Extract form data
-        f_name = request.form['f_name']
-        l_name = request.form['l_name']
-        genre = request.form['genre']
-        
+        food_name = request.form['food_name']
+        ease_of_making = request.form['ease_of_making']
+        taste = request.form['taste']
+        dietary_class = request.form['dietary_class']
+
         # Process the data (e.g., add it to a database)
         # For now, let's just print it to the console
-        print("Name:", f_name + " "+ l_name, ":", "Favorite Genre:", genre)
+        print("Name:", food_name + " "+ ease_of_making, ":", "Favorite Genre:", taste, dietary_class )
         
         flash('User added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
@@ -103,13 +104,13 @@ def add_user():
 def delete_user():
     if request.method == 'POST':
         # Extract form data
-        name = request.form['name']
+        food = request.form['Food']
         
         # Process the data (e.g., add it to a database)
         # For now, let's just print it to the console
-        print("Name to delete:", name)
+        print("Name to delete:", food)
         
-        flash('User deleted successfully! Hoorah!', 'warning') 
+        flash('Food deleted successfully! Hoorah!', 'warning') 
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
