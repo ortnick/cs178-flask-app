@@ -81,7 +81,7 @@ def home():
 
 
 @app.route('/add-food', methods=['GET', 'POST'])
-def add_user():
+def add_food():
     if request.method == 'POST':
         # Extract form data
         food_name = request.form['food_name']
@@ -98,7 +98,7 @@ def add_user():
         return redirect(url_for('home'))
     else:
         # Render the form page if the request method is GET
-        return render_template('add_user.html')
+        return render_template('add_food.html')
 
 @app.route('/delete-food',methods=['GET', 'POST'])
 def delete_user():
