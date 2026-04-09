@@ -108,7 +108,6 @@ def delete_food():
                 DELETE FROM FoodReviews.Food_Reviews
                 WHERE FoodName = %s
             """
-
             execute_update(delete_query, args=(food_name,))
 
         if len(result_2) > 0:
@@ -135,6 +134,7 @@ def update_food():
         taste = request.form['taste']
         dietary_class = request.form['dietary_class']
 
+        # Builds insert quearys
         query_1 = """
             INSERT INTO FoodReviews.Food_Reviews
             (FoodName, DietaryClass)
@@ -193,6 +193,7 @@ def update_food():
 
 @app.route("/viewdb")
 def viewdb():
+    # Creates the reviw table - full names for dietary restrictions
     foods = execute_query("""
         SELECT FR.FoodName as food,
                FR.DietaryClass as diet_id,
@@ -206,7 +207,7 @@ def viewdb():
         ORDER BY total DESC;
     """)
 
-    # Used ai to help find out how to join on this data since i couldnt get it to work with sql code
+    # Used chatgpt to help find out how to join on this data since i couldnt get it to work with sql code
     response = diettable.scan()
     diet_rows = response['Items']
 

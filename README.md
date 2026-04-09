@@ -1,4 +1,4 @@
-# [Your Project Name Here]
+# Homemade Food Reviews
 
 **CS178: Cloud and Database Systems — Project #1**
 **Author:** Nick Ortman
@@ -8,7 +8,7 @@
 
 ## Overview
 
-This project aims to create a database that will store information regarding the taste, how easy food is to make, and basic dietary restrictions for food i cook. The database will be viewable and ordered by averaged total score across all recordings in the food log so any changes in taste or efficency while cooking can be averaged.
+This project aims to create a database that will store information regarding the taste, how easy food is to make, and basic dietary restrictions for food I cook. The database will be viewable and ordered by averaged total score across all recordings in the food log so any changes in taste or efficency while cooking can be averaged.
 
 ---
 
