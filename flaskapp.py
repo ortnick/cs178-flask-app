@@ -42,7 +42,7 @@ def add_new_food():
 
         query = """
             INSERT INTO FoodReviews.Food_Reviews
-            (FoodName DietaryClass)
+            (FoodName, DietaryClass)
             VALUES (%s, %s)
         """
 
