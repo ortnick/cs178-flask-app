@@ -125,6 +125,71 @@ def delete_food():
     else:
         # Render the form page if the request method is GET
         return render_template('delete_food.html')
+    
+@app.route('/update-food', methods=['GET', 'POST'])
+def update_food():
+    if request.method == 'POST':
+        # Extract form data
+        food_name = request.form['food_name']
+        ease_of_making = request.form['ease_of_making']
+        taste = request.form['taste']
+        dietary_class = request.form['dietary_class']
+
+        query_1 = """
+            INSERT INTO FoodReviews.Food_Reviews
+            (FoodName, DietaryClass)
+            VALUES (%s, %s)
+        """
+        query_2 = """
+            INSERT INTO FoodReviews.Food_Log
+            (FoodName, EaseOfMaking, Taste)
+            VALUES (%s, %s, %s)
+        """
+        
+        # Check if food exists in Food_Reviews
+        check_query_1 = """
+            SELECT *
+            FROM FoodReviews.Food_Reviews
+            WHERE FoodName = %s
+        """
+        # Check if food exists in Food_Log
+        check_query_2 = """
+            SELECT *
+            FROM FoodReviews.Food_Log
+            WHERE FoodName = %s
+        """
+
+        result_1 = execute_query(check_query_1, args=(food_name,))
+        result_2 = execute_query(check_query_2, args=(food_name,))
+
+        if len(result_1) == 0 and len(result_2) == 0:
+            flash('This food does not exist!', 'error')
+            return redirect(url_for('update_food'))
+        
+        if len(result_1) > 0:
+        # Delete if it exists
+            delete_query = """
+                DELETE FROM FoodReviews.Food_Reviews
+                WHERE FoodName = %s
+            """
+            execute_update(delete_query, args=(food_name,))
+
+        if len(result_2) > 0:
+        # Delete if it exists
+            delete_query = """
+                DELETE FROM FoodReviews.Food_Log
+                WHERE FoodName = %s
+            """
+            execute_update(delete_query, args=(food_name,))
+        
+        execute_update(query_1, args = (food_name, dietary_class))
+        execute_update(query_2, args = (food_name, ease_of_making, taste))
+        flash('Food updated successfully! Nice!', 'success')  # 'success' is a category; makes a green banner at the top
+        # Redirect to home page or another page upon successful submission
+        return redirect(url_for('home'))
+    else:
+        # Render the form page if the request method is GET
+        return render_template('update_food.html')
 
 @app.route("/viewdb")
 def viewdb():
