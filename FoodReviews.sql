@@ -11,7 +11,7 @@ CREATE TABLE Food_Reviews (
     DietaryClass INT NOT NULL
 );
 
-INSERT INTO Food_Reviews (FoodName, EaseOfMaking, Taste, DietaryClass)
+INSERT INTO Food_Reviews (FoodName, DietaryClass)
 VALUES
     ('Butter chicken', 1),
     ('Scallion Pancakes', 3),
