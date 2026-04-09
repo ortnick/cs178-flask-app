@@ -33,23 +33,42 @@ def get_connection():
 def home():
     return render_template('home.html')
 
+@app.route('/add-new-food', methods=['GET', 'POST'])
+def add_food():
+    if request.method == 'POST':
+        # Extract form data
+        food_name = request.form['food_name']
+        dietary_class = request.form['dietary_class']
 
-@app.route('/add-food', methods=['GET', 'POST'])
+        query = """
+            INSERT INTO FoodReviews.Food_Reviews
+            (FoodName DietaryClass)
+            VALUES (%s, %s)
+        """
+
+        execute_update(query, args = (food_name, dietary_class))
+        flash('Food added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
+        # Redirect to home page or another page upon successful submission
+        return redirect(url_for('home'))
+    else:
+        # Render the form page if the request method is GET
+        return render_template('add_food.html')
+    
+@app.route('/log-food', methods=['GET', 'POST'])
 def add_food():
     if request.method == 'POST':
         # Extract form data
         food_name = request.form['food_name']
         ease_of_making = request.form['ease_of_making']
         taste = request.form['taste']
-        dietary_class = request.form['dietary_class']
 
         query = """
-            INSERT INTO FoodReviews.Food_Reviews
-            (FoodName, EaseOfMaking, Taste, DietaryClass)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO FoodReviews.Food_Log
+            (FoodName, EaseOfMaking, Taste)
+            VALUES (%s, %s, %s)
         """
 
-        execute_update(query, args = (food_name, ease_of_making, taste, dietary_class))
+        execute_update(query, args = (food_name, ease_of_making, taste))
         flash('Food added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
@@ -94,12 +113,15 @@ def delete_food():
 @app.route("/viewdb")
 def viewdb():
     foods = execute_query("""
-        SELECT FoodName as food,
-               DietaryClass as diet_id,
-               EaseOfMaking as ease,
-               Taste as taste,
-               (EaseOfMaking + Taste) AS total
-        FROM FoodReviews.Food_Reviews
+        SELECT FR.FoodName as food,
+               FR.DietaryClass as diet_id,
+               FL.EaseOfMaking as ease,
+               FL.Taste as taste,
+               (FL.EaseOfMaking + FL.Taste) AS total
+        FROM FoodReviews.Food_Reviews FR Join (
+            SELECT FoodName, avg(EaseOfMaking) as EaseOfMaking, avg(Taste) as Taste
+            FROM FoodReviews.Food_Log
+            GROUP BY FoodName) FL on FR.FoodName = FL.FoodName
         ORDER BY total DESC;
     """)
 
