@@ -43,10 +43,10 @@ def add_food():
         taste = request.form['taste']
         dietary_class = request.form['dietary_class']
 
-        query = f"""
+        query = """
             INSERT INTO FoodReviews.Food_Reviews
             (FoodName, EaseOfMaking, Taste, DietaryClass)
-            VALUES ('{food_name}', {ease_of_making}, {taste}, {dietary_class})
+            VALUES (%s, %s, %s, %s)
         """
 
         execute_query(query, args = (food_name, ease_of_making, taste, dietary_class))
