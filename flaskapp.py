@@ -40,37 +40,6 @@ def execute_query(query, args=()):
     return rows
 
 
-def get_column_names(table_name):
-    """
-    Returns column names for a specific table.
-    Used ai to trouble shoot how to just return column names
-    """
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM {table_name} LIMIT 0;")
-    colnames = [desc[0] for desc in cursor.description]
-    cursor.close()
-    conn.close()
-    return colnames
-
-def display_html(rows, colnames):
-    """
-    Converts query result rows into a simple HTML table string with column headers.
-    Flask routes can return this directly as a response.
-    Used ai to help display column names
-    """
-    html = "<table border='1'><tr>"
-    for name in colnames[1:]:
-        html += f"<th>{name}</th>"
-    html += "</tr>"
-    for row in rows:
-        html += "<tr>"
-        for col in row:
-            html += f"<td>{col}</td>"
-        html += "</tr>"
-    html += "</table>"
-    return html
-
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
@@ -82,6 +51,9 @@ def home():
 
 @app.route('/add-food', methods=['GET', 'POST'])
 def add_food():
+
+        #DO THIS IN DBCODEcjkSD VjAENFV :SKJV SD:KJV SD
+        ##fsdf
     if request.method == 'POST':
         # Extract form data
         food_name = request.form['food_name']
@@ -89,9 +61,11 @@ def add_food():
         taste = request.form['taste']
         dietary_class = request.form['dietary_class']
 
-        # Process the data (e.g., add it to a database)
-        # For now, let's just print it to the console
-        print("Name:", food_name + " "+ ease_of_making, ":", "Favorite Genre:", taste, dietary_class )
+        query = """
+            INSERT INTO FoodReviews.Food_Reviews
+            (FoodName, EaseOfMaking, Taste, DietaryClass)
+            VALUES ('{food_name}', {ease_of_making}, {taste}, {dietary_class})
+        """
         
         flash('User added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
@@ -124,16 +98,14 @@ def viewdb():
     and returns them as an HTML table.
     Route: /viewdb
     """
-    rows = execute_query("""
-        SELECT FR.FoodName, FR.EaseOfMaking, FR.Taste, DC.DIET_LABEL, (FR.EaseOfMaking + FR.Taste) AS TotalRating
+    foods = execute_query("""
+        SELECT FR.FoodName as food, DC.DIET_LABEL as diet, FR.EaseOfMaking as ease, FR.Taste as taste, (FR.EaseOfMaking + FR.Taste) AS total
         FROM FoodReviews.Food_Reviews FR
         JOIN FoodReviews.Dietary_Class DC
             ON FR.DietaryClass = DC.DietID
         ORDER BY TotalRating DESC;
     """)
-    colnames = get_column_names("FoodReviews.Food_Reviews") + ["TotalRating"]
-    return display_html(rows, colnames)
-
+    return render_template('display_output.html', outputs = foods)
 
 # ---------------------------------------------------------------------------
 # Run the app
