@@ -60,7 +60,7 @@ def display_html(rows, colnames):
     Used ai to help display column names
     """
     html = "<table border='1'><tr>"
-    for name in colnames:
+    for name in colnames[1:]:
         html += f"<th>{name}</th>"
     html += "</tr>"
     for row in rows:
@@ -87,7 +87,7 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT *, (EaseOfMaking + Taste) AS TotalRating
+        SELECT FoodName, EaseOfMaking, Taste, (EaseOfMaking + Taste) AS TotalRating
         FROM FoodReviews.Food_Reviews
         ORDER BY TotalRating DESC;
     """)
