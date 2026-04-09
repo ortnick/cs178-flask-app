@@ -80,7 +80,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/add-user', methods=['GET', 'POST'])
+@app.route('/add-food', methods=['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
         # Extract form data
@@ -99,7 +99,7 @@ def add_user():
         # Render the form page if the request method is GET
         return render_template('add_user.html')
 
-@app.route('/delete-user',methods=['GET', 'POST'])
+@app.route('/delete-food',methods=['GET', 'POST'])
 def delete_user():
     if request.method == 'POST':
         # Extract form data
