@@ -82,27 +82,43 @@ def delete_food():
         # Extract form data
         food_name = request.form['food_name']
 
-        # Check if food exists
-        check_query = """
+        # Check if food exists in Food_Reviews
+        check_query_1 = """
             SELECT *
             FROM FoodReviews.Food_Reviews
             WHERE FoodName = %s
         """
-
-        result = execute_query(check_query, args=(food_name,))
-
-        if len(result) == 0:
-            flash('This food does not exist!', 'error')
-            return redirect(url_for('delete_food'))
-
-        # Delete if it exists
-        delete_query = """
-            DELETE FROM FoodReviews.Food_Reviews
+        # Check if food exists in Food_Log
+        check_query_2 = """
+            SELECT *
+            FROM FoodReviews.Food_Log
             WHERE FoodName = %s
         """
 
-        execute_update(delete_query, args=(food_name,))
+        result_1 = execute_query(check_query_1, args=(food_name,))
+        result_2 = execute_query(check_query_2, args=(food_name,))
 
+        if len(result_1) == 0 and len(result_2) == 0:
+            flash('This food does not exist!', 'error')
+            return redirect(url_for('delete_food'))
+
+        if len(result_1) > 0:
+        # Delete if it exists
+            delete_query = """
+                DELETE FROM FoodReviews.Food_Reviews
+                WHERE FoodName = %s
+            """
+
+            execute_update(delete_query, args=(food_name,))
+
+        if len(result_2) > 0:
+        # Delete if it exists
+            delete_query = """
+                DELETE FROM FoodReviews.Food_Log
+                WHERE FoodName = %s
+            """
+
+            execute_update(delete_query, args=(food_name,))
         flash('Food deleted successfully! Hoorah!', 'warning')
         return redirect(url_for('home'))
 
