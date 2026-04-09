@@ -126,8 +126,7 @@ def viewdb():
     """
     rows = execute_query("""
         SELECT *
-        FROM FoodReviews.Food_Reviews FR
-        ORDER BY TotalRating DESC;
+        FROM FoodReviews.Food_Reviews FR;
     """)
     colnames = get_column_names("FoodReviews.Food_Reviews") + ["TotalRating"]
     return display_html(rows, colnames)
