@@ -12,20 +12,6 @@ app.secret_key = 'your_secret_key' # this is an artifact for using flash display
                                    # it is required, but you can leave this alone
 
 # ---------------------------------------------------------------------------
-# Database helpers
-# ---------------------------------------------------------------------------
-
-
-def get_connection():
-    """Opens and returns a connection to the RDS MySQL database."""
-    return pymysql.connect(
-        host=creds.host,
-        user=creds.user,
-        password=creds.password,
-        db=creds.db
-    )
-
-# ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
 
