@@ -125,9 +125,10 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT FoodName, EaseOfMaking, Taste, DIET_LABEL (EaseOfMaking + Taste) AS TotalRating
-        FROM FoodReviews.Food_Reviews, FoodReviews.Diatary_Class
-        Where DiataryClass = DietID
+        SELECT FR.FoodName, FR.EaseOfMaking, FR.Taste, DC.DIET_LABEL, FR.(EaseOfMaking + Taste) AS TotalRating
+        FROM FoodReviews.Food_Reviews FR
+        JOIN FoodReviews.Dietary_Class DC
+            ON FR.DietaryClass = DC.DietID
         ORDER BY TotalRating DESC;
     """)
     colnames = get_column_names("FoodReviews.Food_Reviews") + ["TotalRating"]
