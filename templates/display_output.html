@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Rankings List</title>
+    <title>Users List</title>
     <!-- Bootstrap CSS for styling the table -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
-        <h2 class="mt-5">Rankings List</h2>
+        <h2 class="mt-5">Users List</h2>
         <table class="table table-bordered table-striped mt-3">
             <thead class="thead-dark"> <!-- creates a dark background for the table header -->
                 <tr>
@@ -22,10 +22,10 @@
                 {% for output in outputs %}
                 <tr>
                     <td>{{ output[0] }}</td>
-                    <td>{{ output[1] }}</td>
-                    <td>{{ output[2] }}</td>
-                    <td>{{ output[3] }}</td>
-                    <td>{{ output[4] }}</td>
+                    <td>{{ output.diet }}</td>
+                    <td>{{ output.ease }}</td>
+                    <td>{{ output.taste }}</td>
+                    <td>{{ output.total }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
