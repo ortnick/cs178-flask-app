@@ -10,10 +10,10 @@ CREATE TABLE Food_Reviews (
     FoodName VARCHAR(100) NOT NULL,
     EaseOfMaking DECIMAL(3,1) CHECK (EaseOfMaking >= 0.0 AND EaseOfMaking <= 10.0),
     Taste DECIMAL(3,1) CHECK (Taste >= 0.0 AND Taste <= 10.0),
-    DiataryClass INT NOT NULL
+    DietaryClass INT NOT NULL
 );
 
-INSERT INTO Food_Reviews (FoodName, EaseOfMaking, Taste, DiataryClass)
+INSERT INTO Food_Reviews (FoodName, EaseOfMaking, Taste, DietaryClass)
 VALUES
     ('Butter chicken', 9.4, 8.6, 1),
     ('Scallion Pancakes', 9.2, 6.3, 3),
