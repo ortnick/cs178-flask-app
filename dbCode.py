@@ -4,6 +4,11 @@
 
 import pymysql
 import creds
+import boto3
+
+# Asked ai for help with implementing dynamo tables
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+diettable = dynamodb.Table('Dietary_Class')
 
 def get_conn():
     """Returns a connection to the MySQL RDS instance."""

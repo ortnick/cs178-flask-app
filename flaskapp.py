@@ -77,12 +77,28 @@ def delete_user():
 @app.route("/viewdb")
 def viewdb():
     foods = execute_query("""
-        SELECT FR.FoodName as food, DC.DIET_LABEL as diet, FR.EaseOfMaking as ease, FR.Taste as taste, (FR.EaseOfMaking + FR.Taste) AS total
-        FROM FoodReviews.Food_Reviews FR
-        JOIN FoodReviews.Dietary_Class DC
-            ON FR.DietaryClass = DC.DietID
+        SELECT FoodName as food,
+               DietaryClass as diet_id,
+               EaseOfMaking as ease,
+               Taste as taste,
+               (EaseOfMaking + Taste) AS total
+        FROM FoodReviews.Food_Reviews
         ORDER BY total DESC;
     """)
+
+    response = diettable.scan()
+    diet_rows = response['Items']
+
+    # Convert DynamoDB rows into dictionary
+    diet_lookup = {
+        int(row['DietID']): row['DIET_LABEL']
+        for row in diet_rows
+    }
+
+    # Add diet labels to MySQL rows
+    for food in foods:
+        food['diet'] = diet_lookup.get(food['diet_id'], "Unknown")
+
     return render_template('display_output.html', outputs = foods)
 
 # ---------------------------------------------------------------------------
