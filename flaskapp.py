@@ -125,7 +125,7 @@ def viewdb():
     Route: /viewdb
     """
     rows = execute_query("""
-        SELECT FR.FoodName, FR.EaseOfMaking, FR.Taste, DC.DIET_LABEL, FR.(EaseOfMaking + Taste) AS TotalRating
+        SELECT FR.FoodName, FR.EaseOfMaking, FR.Taste, DC.DIET_LABEL, (FR.EaseOfMaking + FR.Taste) AS TotalRating
         FROM FoodReviews.Food_Reviews FR
         JOIN FoodReviews.Dietary_Class DC
             ON FR.DietaryClass = DC.DietID
