@@ -49,7 +49,7 @@ def add_food():
             VALUES (%s, %s, %s, %s)
         """
 
-        execute_query(query, args = (food_name, ease_of_making, taste, dietary_class))
+        execute_update(query, args = (food_name, ease_of_making, taste, dietary_class))
         flash('User added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
