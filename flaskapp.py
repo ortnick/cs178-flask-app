@@ -55,7 +55,7 @@ def add_new_food():
         return render_template('add_new_food.html')
     
 @app.route('/log-food', methods=['GET', 'POST'])
-def log_food():
+def food_log():
     if request.method == 'POST':
         # Extract form data
         food_name = request.form['food_name']
