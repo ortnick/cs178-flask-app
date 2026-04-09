@@ -52,7 +52,7 @@ def add_food():
         return redirect(url_for('home'))
     else:
         # Render the form page if the request method is GET
-        return render_template('add_food.html')
+        return render_template('add_new_food.html')
     
 @app.route('/log-food', methods=['GET', 'POST'])
 def add_food():
@@ -74,7 +74,7 @@ def add_food():
         return redirect(url_for('home'))
     else:
         # Render the form page if the request method is GET
-        return render_template('add_food.html')
+        return render_template('food_log.html')
 
 @app.route('/delete-food', methods=['GET', 'POST'])
 def delete_food():
